@@ -1,18 +1,19 @@
-// Project1Client.c
-// David Brakman
+/* Project1Client.c
+ *  David Brakman
+ */
 #include "NetworkHeader.h"
 
 /* function declarations */
 
-main (int argc, char *argv[]) {
+int main (int argc, char *argv[]) {
 
   /* There are certainly slicker ways of doing this,
    * but I figured there's no need to make the code
    * any more confusing than it has to be at this point.
    */
 
-  // Argument parsing variables
-  char *firstName;
+  /* Argument parsing variables */
+  char* firstName;
   char *lastName;
   char *serverHost = SERVER_HOST;
   unsigned short serverPort = atoi(SERVER_PORT);
@@ -52,8 +53,10 @@ main (int argc, char *argv[]) {
   }
 
   /* Your networking code starts here */
-  printf("Compiled successfully");
+  DieWithError("thbbbt");
 
+  printf("%s %s, %s:%s (%d)\n", firstName, lastName, serverHost, servPortString, serverPort);
+  return 0;
 }
 
 

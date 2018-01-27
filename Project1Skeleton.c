@@ -10,7 +10,7 @@ main (int argc, char *argv[]) {
    * any more confusing than it has to be at this point.
    */
 
-  // Argument parsing variables
+  /* Argument parsing variables */
   char *firstName;
   char *lastName;
   char *serverHost = SERVER_HOST;

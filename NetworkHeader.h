@@ -17,4 +17,4 @@
 #define	LISTENQ		1024	/* 2nd argument to listen() */
 #define SHORT_BUFFSIZE  100     /* For messages I know are short */
 void DieWithError(char *errorMessage); /*Error handling function */
-void HandleProj1Client(int cliSock, char *randString);
+void HandleProj1Client(int cliSock, char *randString); /* ?? What is this? */

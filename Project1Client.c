@@ -67,13 +67,23 @@ int main (int argc, char *argv[]) {
   servAddr.sin_addr.s_addr = inet_addr(serverHost);
   servAddr.sin_port = serverPort;
 
-  /* 2b. Connect to Server */
+  /* 2b. Connect to server */
   if (connect(sock, (const struct sockaddr*) &servAddr, sizeof(servAddr)) < 0){
       char msgBuf[SHORT_BUFFSIZE];
-      sprintf(msgBuf, "Call on connect(%u, %p, %lu) failed", sock, &servAddr, sizeof(servAddr));
+      sprintf(msgBuf, "Call on connect(%u, %p, %lu) failed\n", sock, &servAddr, sizeof(servAddr));
       DieWithError(msgBuf);
   }
-  printf("help meeee \n");
+
+  /* 3a. Create/Format HELLO message */
+  char msgBuf[MAXLINE];
+  int preTerminatorLen = sprintf(msgBuf, "%s HELLO %s %s\n", CUSTOM_PROTOCOL_VERSION, firstName,
+                             lastName);
+  
+  /* 3b. Send HELLO message */
+  int bytesSent = send(sock, (const void*) msgBuf, preTerminatorLen, 0);
+  if (bytesSent != preTerminatorLen){
+      DieWithError("send(%u, %p, %d, 0) sent %d bytes but expected to send %d bytes\n");
+  }
   
   close(sock);    
   printf("%s %s, %s:%s (%hu)\n", firstName, lastName, serverHost, servPortString, serverPort);

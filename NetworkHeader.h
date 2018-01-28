@@ -18,3 +18,6 @@
 #define SHORT_BUFFSIZE  100     /* For messages I know are short */
 void DieWithError(char *errorMessage); /*Error handling function */
 void HandleProj1Client(int cliSock, char *randString); /* ?? What is this? */
+
+/* Student-Defined constants */
+#define CUSTOM_PROTOCOL_VERSION "CS332"   /* version field of HELLO message */

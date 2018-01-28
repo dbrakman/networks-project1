@@ -1,2 +1,13 @@
-Project1Client
+# Ignore executable but don't ignore .c files with same prefix
+
+# 1. Ignore all
+*
+
+# 2. Unignore all with extensions
+!*.*
+
+# 3. Unignore all dirs
+!*/
+
+# Also ignore all object files
 *.o

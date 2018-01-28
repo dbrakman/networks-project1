@@ -73,7 +73,7 @@ int main (int argc, char *argv[]) {
       sprintf(msgBuf, "Call on connect(%u, %p, %lu) failed", sock, &servAddr, sizeof(servAddr));
       DieWithError(msgBuf);
   }
-
+  printf("help meeee \n");
   
   close(sock);    
   printf("%s %s, %s:%s (%hu)\n", firstName, lastName, serverHost, servPortString, serverPort);

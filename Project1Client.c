@@ -44,7 +44,9 @@ int main (int argc, char *argv[]) {
 	serverHost = strtok(argv[i+1],":");
 	if ((servPortString = strtok(NULL, ":")) != NULL) {
 	  serverPort = htons(atoi(servPortString));
-	}
+	} else {
+      serverPort = atoi(SERVER_PORT);
+    }
 	break;
       default:
 	break;
@@ -53,9 +55,28 @@ int main (int argc, char *argv[]) {
   }
 
   /* Your networking code starts here */
-  DieWithError("thbbbt");
+  const int ADDRESS_FAMILY = AF_INET;
+  
+  /* 1. Create Socket descriptor */
+  int sock = socket(ADDRESS_FAMILY, SOCK_STREAM, IPPROTO_TCP);
 
-  printf("%s %s, %s:%s (%d)\n", firstName, lastName, serverHost, servPortString, serverPort);
+  /* 2a. Prepare Address Structure */
+  struct sockaddr_in servAddr;
+  memset(&servAddr, 0, sizeof(servAddr));  // Initialize all fields (including unused) to 0
+  servAddr.sin_family = ADDRESS_FAMILY;
+  servAddr.sin_addr.s_addr = inet_addr(serverHost);
+  servAddr.sin_port = serverPort;
+
+  /* 2b. Connect to Server */
+  if (connect(sock, (const struct sockaddr*) &servAddr, sizeof(servAddr)) < 0){
+      char msgBuf[SHORT_BUFFSIZE];
+      sprintf(msgBuf, "Call on connect(%u, %p, %lu) failed", sock, &servAddr, sizeof(servAddr));
+      DieWithError(msgBuf);
+  }
+
+  
+  close(sock);    
+  printf("%s %s, %s:%s (%hu)\n", firstName, lastName, serverHost, servPortString, serverPort);
   return 0;
 }
 

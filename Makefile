@@ -5,7 +5,9 @@ ECHO_PORT	= 30200
 PROJECT_PORT= 30201
 ###############################
 
-default: client
+default:
+	make client
+	make run
 
 client: Project1Client.c NetworkHeader.h DieWithError.c
 	gcc -g -Wall -o Project1Client Project1Client.c DieWithError.c

@@ -84,7 +84,38 @@ int main (int argc, char *argv[]) {
   if (bytesSent != preTerminatorLen){
       DieWithError("send(%u, %p, %d, 0) sent %d bytes but expected to send %d bytes\n");
   }
-  
+
+  /* 4. Receive ACK message */
+  char readBuf[BUFFSIZE];
+  char* nextWord;
+  char* cookie;
+  int completedCS332 = 0;
+  int completedACK = 0;
+  int completedCookie = 0;
+  while (!completedCookie){
+      int bytesReceived = recv(sock, (void* )readBuf, BUFFSIZE, 0);
+      readBuf[bytesReceived] = '\0';  /* null-terminate string */
+      nextWord = strtok(readBuf, " ");
+      while (nextWord != NULL){
+          if (strcmp((const char*) nextWord, "CS332") == 0){
+              completedCS332 = 1;
+              completedACK = 0;
+          } else if (strcmp((const char*) nextWord, "ACK") == 0 && completedCS332){
+              completedACK = 1;
+          } else if (nextWord[strlen(nextWord) - 1] == '\n' && completedACK) {
+              cookie = nextWord;
+              completedCookie = 1;
+              break;
+          } else {
+              completedCS332 = 0;
+              completedACK = 0;
+          }
+          nextWord = strtok(NULL, " ");
+      }
+  }
+
+  printf("CS332 ACK %s\n", cookie);
+
   close(sock);    
   printf("%s %s, %s:%s (%hu)\n", firstName, lastName, serverHost, servPortString, serverPort);
   return 0;

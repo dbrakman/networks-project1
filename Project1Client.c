@@ -117,7 +117,6 @@ int main (int argc, char *argv[]) {
   printf("CS332 ACK %s\n", cookie);
 
   close(sock);    
-  printf("%s %s, %s:%s (%hu)\n", firstName, lastName, serverHost, servPortString, serverPort);
   return 0;
 }
 
